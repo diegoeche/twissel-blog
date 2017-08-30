@@ -13,62 +13,74 @@
 </p><p>I wrote an extension for the specific purpose of extracting certain pieces of information from the LinkedIn profiles. Getting started with it is rather easy and you can just go ahead and <a href="https://github.com/diegoeche/ExtensionCrawlerExample">clone the repository.</a>
 </p><p><h3>The Manifest</h3>
 </p><p>First thing you have to do to configure your extension is to create a manifest file. In this file the extension declares what kind of permissions it will require. It also lists the resource files the extension will use.
-</p><p>
-</p><p>[code language="javascript"]
-</p><p>{
-</p><p>&quot;manifest_version&quot;: 2,
-</p><p>
-</p><p>&quot;name&quot;: &quot;Scrapping tool for Linkedin&quot;,
-</p><p>&quot;description&quot;: &quot;description&quot;,
-</p><p>&quot;version&quot;: &quot;1.0&quot;,
-</p><p>
-</p><p>&quot;browser_action&quot;: {
-</p><p>&quot;default_icon&quot;: &quot;icon.png&quot;,
-</p><p>&quot;default_popup&quot;: &quot;popup.html&quot;
-</p><p>},
-</p><p>
-</p><p>&quot;content_scripts&quot;: [{
-</p><p>&quot;matches&quot;: [&quot;*://*.linkedin.com/*&quot;],
-</p><p>&quot;js&quot;: [&quot;content.js&quot;]
-</p><p>}],
-</p><p>
-</p><p>&quot;permissions&quot;: [
-</p><p>&quot;activeTab&quot;
-</p><p>]
-</p><p>}
-</p><p>[/code]
-</p><p>
+</p>
+
+{{< highlight javascript >}}
+{
+  "manifest_version": 2,
+
+  "name": "Scrapping tool for Linkedin",
+  "description": "description",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+
+  "content_scripts": [{
+    "matches": ["*://*.linkedin.com/*"],
+    "js": ["content.js"]
+  }],
+
+  "permissions": [
+    "activeTab"
+  ]
+}
+{{< /highlight >}}
+
+<p>
 </p><p>In our example we need the "activeTab" permission in order to be able to access the tab contents. Additionally we have declared 2 types of resources. We added a <em>content.js</em> to the <em>content_scripts </em>folder and we have a <em>popup.html</em>.
 </p><p><h3>Popup</h3>
 </p><p>The type of extension we are developing is <a href="https://developer.chrome.com/extensions/browserAction">the one that will have a simple button in chrome's omnibar</a>. When clicking it, the file attached to the extension (<em>popup.html</em>) will be rendered.
 </p><p><h3>Getting the tab html</h3>
 </p><p>Having behaviour on clicking the button is not enough. The popup has no access to the contents of the tab we are interested to crawl. How do we communicate with the open tab to get access to its DOM? <a href="https://developer.chrome.com/extensions/messaging">Chrome uses message passing</a> to communicate between different "contexts". The file we added previously in the "content" section of the manifest will run in the same context of the website. Making the activeTab return its markup can be achieved by writing something like:
-</p><p>
-</p><p>[code language="javascript"]
-</p><p>// Listen for messages
-</p><p>chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
-</p><p>  // If the received message has the expected format...
-</p><p>  sendResponse(document.all[0].outerHTML);
-</p><p>});
-</p><p>[/code]
-</p><p>
-</p><p>We can then create an asynchronous helper function to process the results of the html returned by the DOM.
-</p><p>
-</p><p>[code language="javascript"]
-</p><p>function getInnerHtml(callback) {
-</p><p>  var queryInfo = {
-</p><p>    active: true,
-</p><p>    currentWindow: true
-</p><p>  };
-</p><p>
-</p><p>  chrome.tabs.query(queryInfo, function(tabs) {
-</p><p>    var tab = tabs[0];
-</p><p>    chrome.tabs.sendMessage(tab.id, {greeting: &amp;amp;quot;message&amp;amp;quot;}, function(response) {
-</p><p>      callback(response);
-</p><p>    });
-</p><p>  });
-</p><p>}
-</p><p>[/code]
+</p>
+
+{{< highlight javascript >}}
+
+// Listen for messages
+chrome.runtime.onMessage.addListener(
+  function (msg, sender, sendResponse) {
+    // If the received message has the expected format...
+    sendResponse(document.all[0].outerHTML);
+  }
+);
+{{< /highlight >}}
+
+<p>
+We can then create an asynchronous helper function to process the results of the html returned by the DOM.
+</p>
+
+{{< highlight javascript >}}
+
+function getInnerHtml(callback) {
+  var queryInfo = {
+    active: true,
+    currentWindow: true
+  };
+
+  chrome.tabs.query(queryInfo, function(tabs) {
+    var tab = tabs[0];
+    chrome.tabs.sendMessage(tab.id, {greeting: "message"},
+      function(response) {
+        callback(response);
+      }
+    );
+  });
+}
+{{< /highlight >}}
+
 </p><p><h3>Testing The Extension</h3>
 </p><p>Save everything under the same folder just like you'd find it on <a href="https://github.com/diegoeche/ExtensionCrawlerExample">my github repository</a>. Then open Chrome and go to "chrome://extensions/" There, make sure to have "developer mode" enabled and then just select "Load Unpacked Extension". Which would add a small icon in your Omnibar. Clicking the icon will run what is in <em>popup.html</em> and its javascript resources. The <em>html</em> that is displayed after clicking the button is accessible to the developer console of Chrome which makes it easy to debug.
 </p><p>

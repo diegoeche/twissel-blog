@@ -2,6 +2,6 @@ languageCode = "en-us"
 title = "Twissel Hacking Projects"
 theme = "hugo-theme-cactus-plus"
 baseURL= "http://twissel.narcosoft.com/"
-
+pygmentsstyle = "friendly"
 [params]
 AuthorName = "Diego Echeverri"

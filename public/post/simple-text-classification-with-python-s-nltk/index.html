@@ -44,7 +44,7 @@
                     </h1>
                     <h2 class="headline">
                     Dec 21, 2015 21:51
-                    · 1018 words
+                    · 1006 words
                     · 5 minutes read
                       <span class="tags">
                       
@@ -53,113 +53,168 @@
                 </header>
                 
                 <section id="post-body">
-                    <p>Last Tuesday I had a very interesting talk with the CTO's and Engineering leads of the SocialAtom Ventures. The idea was to talk about the current challenges everybody is facing and share the experiences we've had with similar problems. One of the companies (<a href="http://www.bankity.com/">Bankity</a>) is struggling to separate bogus messages from their transaction messages. This is currently being done through Google's Prediction API which not only makes them dependent on a vendor, but also is a black-box that is hard to reason about.
-</p><p>
-</p><p>Early startups tend to be very wary regarding topics that sound too much like Rocket Science. There is of course some appeal to avoid complexity when your startup is on an early stage. Machine learning is one of those topics everybody feels intimidated about. In this post I'll try to convince you that is fine to experiment. And the results/effort might surprise you.
-</p><p><h2>Disclaimer</h2>
-</p><p>This is actually the first time I do text classification. I'm  happy with the current results and I've learned a lot. I felt this post could motivate some people to experiment with NLTK. I'm not an authority on the topic.
-</p><p><h2>Text Classification Basics</h2>
-</p><p>Classification problems are those that try to find the most suitable category for a given object. An example you are probably familiar with is your e-mail spam detector. The classification algorithm behind it is able to classify the email (objects) into the "spam" or "ham" categories.
+                    <p>
+  Last Tuesday I had a very interesting talk with the CTO's and Engineering leads of
+the SocialAtom Ventures. The idea was to talk about the current challenges everybody
+is facing and share the experiences we've had with similar problems. One of
+the companies (<a href="http://www.bankity.com/">Bankity</a>) is struggling to
+separate bogus messages from their transaction messages. This is currently being done
+through Google's Prediction API which not only makes them dependent on a vendor, but
+also is a black-box that is hard to reason about.
+</p>
+
+<p>
+  Early startups tend to be very wary regarding topics that sound too much like
+  Rocket Science. There is of course some appeal to avoid complexity when your
+  startup is on an early stage. Machine learning is one of those topics everybody
+  feels intimidated about. In this post I'll try to convince you that is fine to
+  experiment. And the results/effort might surprise you.
+</p>
+
+<h2>Disclaimer</h2>
+
+<p>This is actually the first time I do text classification. I'm  happy with the
+current results and I've learned a lot. I felt this post could motivate some people
+to experiment with NLTK. I'm not an authority on the topic.
+</p>
+
+<h2>Text Classification Basics</h2>
+
+<p>Classification problems are those that try to find the most suitable category for
+a given object. An example you are probably familiar with is your e-mail spam
+detector. The classification algorithm behind it is able to classify the email
+(objects) into the "spam" or "ham" categories.
 </p><p>
 </p><p>In order to do the classification, a subset of characteristics (features) from the text is selected. These "features" are the high-level inputs that our classifier will receive.
 </p><p><h2>Getting Started With Python NLTK</h2>
 </p><p><a href="http://www.nltk.org/">NLTK</a> stands for "Natural Language Toolkit". Installing it in your environment using <strong>pip</strong> is as simple as:
-</p><p>
-</p><p><code>$ pip install nltk
-</p><p></code>
-</p><p>
+</p>
+
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span>$ pip install nltk
+</pre></div>
+
+
+<p>
 </p><p>Once this is done, we can start preparing our data to train our first classifier. I got all my data as a spreadsheet that I saved in CSV with the following format:
 </p><p>
-</p><p><code>// CSV FILE EXAMPLE
-</p><p>message,isTransaction
-</p><p>"Transaction Approved, $15.700, Hora 03:40, Comercio PAYU NETFLIX COM",1
-</p><p>"I called you 20/10 el **693 at 10:11.",0
-</p><p>"You received 2 calls from: *198 at 20/10/15 This is a free service of Claro.",0
-</p><p>// [...]
-</p><p></code>
-</p><p>
-</p><p>Parsing de data in Python is very easy using the csv library.
-</p><p>
-</p><p>[code language="python"]
-</p><p># A function to tokenize the input into words.
-</p><p>def tokenize(element):
-</p><p> # tokens = nltk.tokenize_words(transactions[0])
-</p><p> # return nltk.word_tokenize(element)
-</p><p> return split(&quot;\W+&quot;, element)
-</p><p>
-</p><p>def load_dataset():
-</p><p> transactions = []
-</p><p> other = []
-</p><p> all_words = []
-</p><p> with open('dataset2.csv') as csvfile:
-</p><p>   reader = csv.DictReader(csvfile)
-</p><p>   for row in reader:
-</p><p>     words = tokenize(row[&quot;message&quot;])
-</p><p>     all_words.extend(words)
-</p><p>     if(row[&quot;isTransaction&quot;] == &quot;1&quot;):
-</p><p>       transactions.append(words)
-</p><p>     else:
-</p><p>       other.append(words)
-</p><p> return(transactions, other, all_words)
-</p><p>
-</p><p>transactions, other, all_words = load_dataset()
-</p><p>[/code]
+
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span>// CSV FILE EXAMPLE
+message,isTransaction
+&quot;Transaction Approved, $15.700, Hora 03:40, Comercio PAYU NETFLIX COM&quot;,1
+&quot;I called you 20/10 el **693 at 10:11.&quot;,0
+&quot;You received 2 calls from: *198 at 20/10/15 This is a free service of Claro.&quot;,0
+// [...]
+</pre></div>
+
+<p>
+Parsing de data in Python is very easy using the csv library.
+</p>
+
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #60a0b0; font-style: italic"># A function to tokenize the input into words.</span>
+<span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">tokenize</span>(element):
+    <span style="color: #60a0b0; font-style: italic"># tokens = nltk.tokenize_words(transactions[0])</span>
+    <span style="color: #60a0b0; font-style: italic"># return nltk.word_tokenize(element)</span>
+    <span style="color: #007020; font-weight: bold">return</span> split(<span style="color: #4070a0">&quot;\W+&quot;</span>, element)
+
+<span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">load_dataset</span>():
+    transactions <span style="color: #666666">=</span> []
+    other <span style="color: #666666">=</span> []
+    all_words <span style="color: #666666">=</span> []
+    <span style="color: #007020; font-weight: bold">with</span> <span style="color: #007020">open</span>(<span style="color: #4070a0">&#39;dataset2.csv&#39;</span>) <span style="color: #007020; font-weight: bold">as</span> csvfile:
+        reader <span style="color: #666666">=</span> csv<span style="color: #666666">.</span>DictReader(csvfile)
+        <span style="color: #007020; font-weight: bold">for</span> row <span style="color: #007020; font-weight: bold">in</span> reader:
+            words <span style="color: #666666">=</span> tokenize(row[<span style="color: #4070a0">&quot;message&quot;</span>])
+            all_words<span style="color: #666666">.</span>extend(words)
+            <span style="color: #007020; font-weight: bold">if</span>(row[<span style="color: #4070a0">&quot;isTransaction&quot;</span>] <span style="color: #666666">==</span> <span style="color: #4070a0">&quot;1&quot;</span>;):
+                transactions<span style="color: #666666">.</span>append(words)
+            <span style="color: #007020; font-weight: bold">else</span>:
+                other<span style="color: #666666">.</span>append(words)
+    <span style="color: #007020; font-weight: bold">return</span>(transactions, other, all_words)
+
+transactions, other, all_words <span style="color: #666666">=</span> load_dataset()
+</pre></div>
+
+
 </p><p>
 </p><p>NL often requires that you do some simple pre-processing of the input. Although I used a simple regex for tokenizing the input into words, nltk comes with its own tokenizer (as shown in the tokenizer function from the snippet).
 </p><p><h2>Training our first classifier</h2>
 </p><p>The text-book example on text classification uses <a href="https://en.wikipedia.org/wiki/Bayes_classifier">Bayes</a> to create a probability model that will use the frequency of occurrences in order to create a statistical model to infer the class of a given object. The "features" in this case correspond to the presence of a given word in the document.
 </p><p><h4>A note on dimensionality</h4>
 </p><p>Each feature creates a "dimension" the classifier will have to deal with. The more dimensions the machine learning algorithm has, the more processing power it will require for analysing and training. Some features do not provide significant information, so it's often useful to spend some time looking at the features gathered from the documents processed and see their histogram of occurrences.
+</p>
+
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span>frequencies <span style="color: #666666">=</span> nltk<span style="color: #666666">.</span>FreqDist(w<span style="color: #666666">.</span>lower() <span style="color: #007020; font-weight: bold">for</span> w <span style="color: #007020; font-weight: bold">in</span> all_words)
+<span style="color: #007020; font-weight: bold">print</span>(frequencies<span style="color: #666666">.</span>most_common(<span style="color: #40a070">50</span>))
+</pre></div>
+
+
+
+<p>Intuitively, features that are too rare (words that happen only once in the entire dataset) do not provide general information. Features that might be too common (stop words as in 'the', 'a', etc) are too broad to be used in classification decisions. Dimensionality Reduction (or in lay terms, selecting the best and most meaningful features) can make your algorithm converge faster.
+</p>
+
+<h2>Naive Bayes Classifier</h2>
+
+<p>Once you have your dataset ready, is time to train your model. Split your dataset
+into "training" and
+"test". T<a href="http://stackoverflow.com/questions/13610074/is-there-a-rule-of-thumb-for-how-to-divide-a-dataset-into-training-and-validatio/13623707#13623707">his
+article of StackOverflow</a> provides some good practices handling your dataset.
 </p><p>
-</p><p>[code language="python"]
-</p><p>frequencies = nltk.FreqDist(w.lower() for w in all_words)
-</p><p>print(frequencies.most_common(50))
-</p><p>[/code]
-</p><p>
-</p><p>Intuitively, features that are too rare (words that happen only once in the entire dataset) do not provide general information. Features that might be too common (stop words as in 'the', 'a', etc) are too broad to be used in classification decisions. Dimensionality Reduction (or in lay terms, selecting the best and most meaningful features) can make your algorithm converge faster.
-</p><p><h2>Naive Bayes Classifier</h2>
-</p><p>Once you have your dataset ready, is time to train your model. Split your dataset into "training" and "test". T<a href="http://stackoverflow.com/questions/13610074/is-there-a-rule-of-thumb-for-how-to-divide-a-dataset-into-training-and-validatio/13623707#13623707">his article of StackOverflow</a> provides some good practices handling your dataset.
-</p><p>
-</p><p>[code language="python"]
-</p><p># Convert from frequencies to 'contains word' feature
-</p><p>def document_features(words, word_features):
-</p><p> document_words = set(words)
-</p><p> features = {}
-</p><p> for word in word_features:
-</p><p> features[word] = (word in document_words)
-</p><p> return features
-</p><p>
-</p><p># Label all the dataset
-</p><p>transaction_features = [(document_features(t, word_features), 'transaction') for t in transactions]
-</p><p>other_features = [(document_features(o, word_features), 'other') for o in other]
-</p><p>
-</p><p># Select all the feature tests.
-</p><p>feature_sets = transaction_features + other_features
-</p><p>
-</p><p># Shuffle the dataset per test
-</p><p>random.shuffle(feature_sets)
-</p><p>
-</p><p># In our case we use 1000 items for training, 100 for testing.
-</p><p>train_set, test_set = feature_sets[:1000], feature_sets[100:]
-</p><p>
-</p><p>real_labels = [label for (_,label) in test_set]
-</p><p>predictions = classifier.classify_many(x for (x,_) in test_set)
-</p><p>valid_predictions = [label == prediction for (label, prediction) in zip(real_labels, predictions)]
-</p><p>
-</p><p>accuracy = valid_predictions.count(True) / float(len(valid_predictions))
-</p><p>[/code]
-</p><p>
-</p><p>That's it. We are measuring the <strong>Avg-Error</strong> in this case as a simple benchmark of convergence of the algorithm. After running the algorithm a couple of thousands of times and playing with the parameters I got to an ~84.3% Avg-Error. I noticed that the convergence rate did not change dramatically by using the top 300 features of the dataset.
-</p><p><h2>Trying other Classifiers</h2>
-</p><p>If the Bayes classifier didn't work, <a href="http://www.nltk.org/howto/classify.html">there are more classifiers available in NLTK.</a>. In my case the ~84.3% from Bayes wasn't enough. NLTK's classifiers conform to the same interface. Because of this, running the same test-program and checking different classifiers to see which performs better is super easy!
-</p><p>
-</p><p>[code language="python"]
-</p><p>classifier = nltk.classify.DecisionTreeClassifier.train(train_set,entropy_cutoff=0,support_cutoff=0)
-</p><p>[/code]
-</p><p>
-</p><p>In my case, the DecisionTreeClassifier, was the most performant. Using only 1000 examples for training and 100 test objects, it was easy to reach a ~97% accuracy.
-</p><p><h2>Conclusions</h2>
-</p><p>NLTK is a very simple library for Natural Language processing in Python. It takes a couple of hundred of lines to check several classifiers and determine which one works best for your dataset. Tuning the features of your given problem might improve the processing costs of the algorithm or even improve the convergence rate.</p>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #60a0b0; font-style: italic"># Convert from frequencies to &#39;contains word&#39; feature</span>
+<span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">document_features</span>(words, word_features):
+    document_words <span style="color: #666666">=</span> <span style="color: #007020">set</span>(words)
+    features <span style="color: #666666">=</span> {}
+    <span style="color: #007020; font-weight: bold">for</span> word <span style="color: #007020; font-weight: bold">in</span> word_features:
+    features[word] <span style="color: #666666">=</span> (word <span style="color: #007020; font-weight: bold">in</span> document_words)
+    <span style="color: #007020; font-weight: bold">return</span> features
+
+<span style="color: #60a0b0; font-style: italic"># Label all the dataset</span>
+transaction_features <span style="color: #666666">=</span> [(document_features(t, word_features), <span style="color: #4070a0">&#39;transaction&#39;</span>) <span style="color: #007020; font-weight: bold">for</span> t <span style="color: #007020; font-weight: bold">in</span> transactions]
+other_features <span style="color: #666666">=</span> [(document_features(o, word_features), <span style="color: #4070a0">&#39;other&#39;</span>) <span style="color: #007020; font-weight: bold">for</span> o <span style="color: #007020; font-weight: bold">in</span> other]
+
+<span style="color: #60a0b0; font-style: italic"># Select all the feature tests.</span>
+feature_sets <span style="color: #666666">=</span> transaction_features <span style="color: #666666">+</span> other_features
+
+<span style="color: #60a0b0; font-style: italic"># Shuffle the dataset per test</span>
+random<span style="color: #666666">.</span>shuffle(feature_sets)
+
+<span style="color: #60a0b0; font-style: italic"># In our case we use 1000 items for training, 100 for testing.</span>
+train_set, test_set <span style="color: #666666">=</span> feature_sets[:<span style="color: #40a070">1000</span>], feature_sets[<span style="color: #40a070">100</span>:]
+
+real_labels <span style="color: #666666">=</span> [label <span style="color: #007020; font-weight: bold">for</span> (_,label) <span style="color: #007020; font-weight: bold">in</span> test_set]
+predictions <span style="color: #666666">=</span> classifier<span style="color: #666666">.</span>classify_many(x <span style="color: #007020; font-weight: bold">for</span> (x,_) <span style="color: #007020; font-weight: bold">in</span> test_set)
+valid_predictions <span style="color: #666666">=</span> [label <span style="color: #666666">==</span> prediction <span style="color: #007020; font-weight: bold">for</span> (label, prediction) <span style="color: #007020; font-weight: bold">in</span> <span style="color: #007020">zip</span>(real_labels, predictions)]
+
+accuracy <span style="color: #666666">=</span> valid_predictions<span style="color: #666666">.</span>count(<span style="color: #007020">True</span>) <span style="color: #666666">/</span> <span style="color: #007020">float</span>(<span style="color: #007020">len</span>(valid_predictions))
+</pre></div>
+
+
+<p>That's it. We are measuring the <strong>Avg-Error</strong> in this case as a simple benchmark of convergence of the algorithm. After running the algorithm a couple of thousands of times and playing with the parameters I got to an ~84.3% Avg-Error. I noticed that the convergence rate did not change dramatically by using the top 300 features of the dataset.
+</p>
+
+<h2>Trying other Classifiers</h2>
+
+<p>If the Bayes classifier didn't
+work, <a href="http://www.nltk.org/howto/classify.html">there are more classifiers
+available in NLTK.</a>. In my case the ~84.3% from Bayes wasn't enough. NLTK's
+classifiers conform to the same interface. Because of this, running the same
+test-program and checking different classifiers to see which performs better is super
+easy!
+</p>
+
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span>classifier <span style="color: #666666">=</span> nltk<span style="color: #666666">.</span>classify<span style="color: #666666">.</span>DecisionTreeClassifier<span style="color: #666666">.</span>train(train_set,entropy_cutoff<span style="color: #666666">=</span><span style="color: #40a070">0</span>,support_cutoff<span style="color: #666666">=</span><span style="color: #40a070">0</span>)
+</pre></div>
+
+
+<p>
+  In my case, the DecisionTreeClassifier, was the most performant. Using only 1000
+  examples for training and 100 test objects, it was easy to reach a ~97% accuracy.
+</p>
+
+<h2>Conclusions</h2>
+<p>NLTK is a very simple library for Natural Language processing in Python. It takes
+a couple of hundred of lines to check several classifiers and determine which one
+works best for your dataset. Tuning the features of your given problem might improve
+the processing costs of the algorithm or even improve the convergence rate.</p>
 
                 </section>
             </article>
