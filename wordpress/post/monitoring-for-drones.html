@@ -1,0 +1,43 @@
+
+---
+  title: Monitoring for Drones
+  date: 2015-12-01 01:24:41
+  draft: false
+---
+<p>Some days ago I met the people from <a href="https://twitter.com/goraspace">Göra Makerspace</a>. Among many interesting projects that mix Art and Engineering these guys are trying to build their own Auto-Pilot System inspired by <a href="http://ardupilot.com/">ArduPilot</a>.
+</p><p>
+</p><p>There's still a lot of work to be done but they asked me about ways to record and chart their sensor data in order to be able to fine-tune all the rocket-science math behind autonomous flight.
+</p><p><h2>Reinventing The Wheel</h2>
+</p><p>Currently  the team developed their own protocol for metrics which is using bluetooth for transmission of the stat. A Custom made android app reads the bluetooth information and renders it as it comes.
+</p><p>
+</p><p>This falls on the typical drawbacks of using a handcrafted system for a well known problem. <em>Not Flexible Enough &amp; Not Battle-Tested. </em>But more importantly, it distracts you from your real problem!
+</p><p>
+</p><p>Because let's be honest. Autonomous flight is a hard problem on itself, the less things you have to worry about the more focus you can put on the interesting challenges.
+</p><p>
+</p><p>Welcome to a 20 minute monitoring setup for Drones.
+</p><p><h2>Robotics ala DevOps</h2>
+</p><p>What you can't measure can't improve. And well... backends do generate tons of metrics. It's not too crazy to ask yourself: Could I reuse the tools I normally use in Backends for monitoring Robot Sensing Data?
+</p><p>
+</p><p>Let's try it!
+</p><p><h4>StatsD</h4>
+</p><p>Let's start with choosing a Protocol to send the metrics.
+</p><p><ul>
+</p><p>	<li>We want to reduce usage of CPU, Memory and Bandwidth.</li>
+</p><p>	<li>Sending metrics should be cheap and fast.</li>
+</p><p>	<li>Something <em>standard</em> should save us time later.</li>
+</p><p></ul>
+</p><p>Well. Meet <a href="https://github.com/etsy/statsd">StatsD</a> A simple UDP/based protocol (and metric aggregator daemon).
+</p><p>
+</p><p>Being UDP means "fire-and-forget" semantics. This avoids IO.blocking time but also avoids breaking the whole system in case of a momentary network split. If we lose a single metric (due to packet loss) the sensing redundancy will take care of the issue.
+</p><p><h4>Graphite + Carbon</h4>
+</p><p>We want to save and display all these metrics somehow. One solution is <a href="http://graphite.readthedocs.org/en/latest/">Graphite</a> which I really like because you can transform the time-series data arbitrarily with simple mathematical functions. The exploration of metrics is easy and you can build custom Dashboards.
+</p><p><h2>Setup</h2>
+</p><p>Before installing each of the aforementioned packages and figure out how to configure each of them. I welcome you to the future. All the packages above are trivial to run together using containers. Just install <a href="https://www.docker.com/">Docker</a> and follow <a href="https://github.com/hopsoft/docker-graphite-statsd">this guide</a>. in 15 minutes you'll have all the required infrastructure.
+</p><p><h4>Sending the Data to the Aggregator</h4>
+</p><p>Right now, all the sensing and controller code is being done in Python. In order to make the robot send the data to the aggregator we <a href="https://gist.github.com/38f0c92902a99c4eaf41">can use a UDP socket.</a> Or even better <a href="https://github.com/gaelenh/python-statsd-client">a Python StatsD Client</a>.
+</p><p>
+</p><p>With the simple script you can simulate the first sensing data. In this case we simulate the x,y,z sensing data from a fake gyroscope. Notice how the namespace-looking metrics improves the readability of what could be a bunch of meaningless numbers.
+</p><p>
+</p><p><img class=" size-full wp-image-288 aligncenter" src="https://twisselprojects.files.wordpress.com/2015/12/screen-shot-2015-11-30-at-20-43-09.png" alt="Screen Shot 2015-11-30 at 20.43.09" width="400" height="243" />
+</p><p><h2>Conclusion</h2>
+</p><p>StatsD + Graphite + Carbon + Docker + UDP = Simple Robot monitoring Setup</p>
