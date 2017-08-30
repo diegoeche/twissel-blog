@@ -1,0 +1,146 @@
+    <!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		
+		<meta name="generator" content="Hugo 0.26" />
+		<title>My Kingdom for a Good GameDev Stack &middot; Twissel Hacking Projects</title>
+		<link rel="shortcut icon" href="http://twissel.narcosoft.com/images/favicon.ico">
+		<link rel="stylesheet" href="http://twissel.narcosoft.com/css/style.css">
+		<link rel="stylesheet" href="http://twissel.narcosoft.com/css/highlight.css">
+		
+
+		
+		<link rel="stylesheet" href="http://twissel.narcosoft.com/css/monosocialiconsfont.css">
+		
+
+		
+	</head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='http://twissel.narcosoft.com/'> <span class="arrow">←</span>Home</a>
+	
+	<a href='http://twissel.narcosoft.com/post'>Archive</a>
+	<a href='http://twissel.narcosoft.com/tags'>Tags</a>
+	<a href='http://twissel.narcosoft.com/about'>About</a>
+
+	
+
+	
+</nav>
+
+
+        <section id="wrapper">
+            <article class="post">
+                <header>
+                    <h1>
+                        My Kingdom for a Good GameDev Stack
+                    </h1>
+                    <h2 class="headline">
+                    Nov 20, 2015 20:45
+                    · 739 words
+                    · 4 minutes read
+                      <span class="tags">
+                      
+                      </span>
+                    </h2>
+                </header>
+                
+                <section id="post-body">
+                    <p>I really just wanted an easy-to-use 2d game engine for multi-platform (mobile) development. But then this happened.
+</p><p><h3>An Open Source Replacement for Unity, or
+</p><p>Why Volunteering to Walk to Mordor?</h3>
+</p><p>Saying "I have used Unity" is a sad way to start explaining why I decided to check the status of the open source game engines and media libraries.
+</p><p>
+</p><p>Basically my experience with Unity was a good reminder of why I love OpenSource. The pile of hacks inside Unity and the legalese when you just want to have fun making games is overwhelming. And the best thing? I am the one complaining having not much experience in Game-Development.
+</p><p>
+</p><p>Maybe that's the issue. Ruby creates unsatisfiable expectations regarding maturity and usability of software. If the tooling around the ecosystem doesn't let me try stuff easily, then I lose all my motivation. And in tooling I expect up-to-date documentation. My quest for finding a replacement for Unity was harder than I thought.
+</p><p><h3>History of Making Computer Games</h3>
+</p><p>At some point in time, people got tired of punching cards and decided to have a translation mechanism between programs and hardware. The idea behind this was the usual. We don't like working and that particular task was rather cumbersome. We got tired of it and invented the C programming language. Portability was invented.
+</p><p>
+</p><p>Later some dudes figured out that it was rather neat to share the code so we (the coders again) wouldn't have to work so fucking much. We started sharing code in magazines and copper wires. Open Source was born.
+</p><p>
+</p><p>The GameDev community ignored the progress. They had romanticized too much Carmack doing all his titles with a Butter-knife, 2 clips and a magnet. They simply couldn't go back.
+</p><p>
+</p><p>The era of mobile development arrives. That and the time of heavily lobbied politics. Wanna have multi-device development? You'll have to make generics work at compile time, or make garbage collection more predictable.
+</p><p>
+</p><p>Worse, platforms launch so fast, and accumulate so much hideous legacy and deprecated stuff that you will carry on, silently, in the name of "backwards compatibility".
+</p><p>
+</p><p>Easier to find the reset button.
+</p><p><h3>What do you want? What did you find?</h3>
+</p><p>Stopping my Rant. I guess the open source game engine world looks like the <a href="https://xkcd.com/927/">xkcd's standards comic</a>.
+</p><p>
+</p><p>I still want to make games. Even if I'll have to develop Stockholm syndrome to get to enjoy it. Which platform is the least bad? Well... I've been looking into different platforms for almost ~4 months. Started playing with plain Rust and SFML to make a simple RPG but I felt the type-system was getting on my way to get stuff done. Maybe I don't need too many correctness guarantees.
+</p><p>
+</p><p>So on addition to being OpenSource, 2D I wanted it to be "performant enough" and "high level". I felt the conclusions from <a href="http://blog.prime31.com/the-great-2d-game-engine-evaluation/">this blog</a> hit close to home. Since I couldn't spend all my life testing all my options decided to limit myself to checkout MonoGame, LibGDX and HaXe.
+</p><p><h3>LibGDX</h3>
+</p><p>"Well... Maybe I'm desperate enough to use Java". I guess that's what most people thinks when deciding to use LibGDX. And you can use Scala... if you pray to the right gods.
+</p><p>
+</p><p>Do I really want to use Java?
+</p><p>
+</p><p>Better documentation about how to use LibGDX with alternative setups would be awesome. Maybe Scala does work now. But the level of abstraction still feels too high. Documentation is too dependent on your development environment. Emacs user downer.
+</p><p><h3>Monogame</h3>
+</p><p>My first thought was "Awesome! they made Bastion using this platform!" Then you see "A port of the old XNA" is not a metaphor.
+</p><p>
+</p><p>Monogame has great language support, but a horrible development environment support. Their license plans and documentation feel outdated. The tooling changes too much and too often. Getting it to work required looking into what seemed purposely hidden documentation to force you to pay for licenses.
+</p><p>
+</p><p>Being fair, I think the traumas of a badly implemented AOT with Unity got me biased
+</p><p><h3>The Winner</h3>
+</p><p>I really like this made-up language called HaXe.
+</p><p>
+</p><p>Who would have thought?
+</p><p><ul>
+</p><p>	<li>Binaries aren't huge.</li>
+</p><p>	<li>The language is statically typed with "Dynamic" types.</li>
+</p><p>	<li>The api might be ugly, but easy to get familiar with.</li>
+</p><p>	<li>Code examples are extensive.</li>
+</p><p>	<li>Prototyping cheap (either through Html5, Flash or Neko support)</li>
+</p><p></ul>
+</p><p>I might regret on a later point. So far, I built a simple game with it and a very tiny backend in Elixir. I really enjoyed it.
+</p><p>
+</p><p><a href="https://github.com/diegoeche/break-kraut">Frontend</a> <a href="https://github.com/diegoeche/break-kraut.backend">Backend</a> <a href="https://fast-everglades-7042.herokuapp.com/">Deploy</a>
+</p><p>
+</p><p>&nbsp;</p>
+
+                </section>
+            </article>
+
+            
+
+            
+
+            
+
+            <footer id="footer">
+    
+    <p class="small">
+    
+       © Copyright 2017 <i class="fa fa-heart" aria-hidden="true"></i> 
+    
+    </p>
+    <p class="small">
+        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
+    </p>
+</footer>
+
+        </section>
+
+        <script src="http://twissel.narcosoft.com/js/jquery-2.2.4.min.js"></script>
+<script src="http://twissel.narcosoft.com/js/main.js"></script>
+<script src="http://twissel.narcosoft.com/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+
+
+    </body>
+</html>

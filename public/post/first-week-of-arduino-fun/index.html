@@ -1,0 +1,111 @@
+    <!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		
+		<meta name="generator" content="Hugo 0.26" />
+		<title>First Week of Arduino Fun &middot; Twissel Hacking Projects</title>
+		<link rel="shortcut icon" href="http://twissel.narcosoft.com/images/favicon.ico">
+		<link rel="stylesheet" href="http://twissel.narcosoft.com/css/style.css">
+		<link rel="stylesheet" href="http://twissel.narcosoft.com/css/highlight.css">
+		
+
+		
+		<link rel="stylesheet" href="http://twissel.narcosoft.com/css/monosocialiconsfont.css">
+		
+
+		
+	</head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='http://twissel.narcosoft.com/'> <span class="arrow">←</span>Home</a>
+	
+	<a href='http://twissel.narcosoft.com/post'>Archive</a>
+	<a href='http://twissel.narcosoft.com/tags'>Tags</a>
+	<a href='http://twissel.narcosoft.com/about'>About</a>
+
+	
+
+	
+</nav>
+
+
+        <section id="wrapper">
+            <article class="post">
+                <header>
+                    <h1>
+                        First Week of Arduino Fun
+                    </h1>
+                    <h2 class="headline">
+                    Nov 11, 2015 15:24
+                    · 234 words
+                    · 2 minutes read
+                      <span class="tags">
+                      
+                      </span>
+                    </h2>
+                </header>
+                
+                <section id="post-body">
+                    <p>So I remember my love for Electronics when I started my university.
+</p><p>
+</p><p>The problem of hardware is having stupid and idiotic hands. Burning stuff. Buying things... or is that actually the fun? :D
+</p><p>
+</p><p>Things have changed a lot from my PIC programming lessons in my Uni. Lot of Amateur friendly hardware is out there, and is not only cheap. Is rather modular!
+</p><p>
+</p><p>So I got <a href="http://www.amazon.de/Anf%C3%A4ngerset-UNO-f%C3%BCr-Arduino-Mikrocontroller/dp/B00CR1FAS2/ref=sr_1_1?ie=UTF8&amp;qid=1447254589&amp;sr=8-1&amp;keywords=funduino+uno+1">a simple kit</a> to remember even the polarity of a LED. And it has been lot's of fun!
+</p><p>
+</p><p>I started with a simple 2 bit counter operated by a single button. Then motivation got me to even make a <a href="https://www.instagram.com/p/9n-vExM2Kp/">cool ultrasonic distance measurer</a>. And since I got already all that working. Why not bragging of the beautiful weather in Medellin by creating a simple serial-connected sensor to my laptop and making a nice plot to prove it?
+</p><p>
+</p><p>First, get a cheap temperature sensor like <a href="https://www.sparkfun.com/products/10988">this one</a>.
+</p><p>
+</p><p>Second. <a href="https://gist.github.com/diegoeche/3c63b2fa93a2f8ec4d98">Create a simple snippet of code</a> and load it into the Arduino to measure the temperature. I average 10 consecutive measurements to avoid too much noise:
+</p><p>
+</p><p>The Arduino will start writing to the serial port the temperature in Celcius. You only need to read the value and plot it against time. <a href="https://gist.github.com/diegoeche/24fe5d3ef5d95484d511">I used a simple ruby script like the following to do so</a>.
+</p><p>
+</p><p>A couple of hours of sensing shows that I'm happy not to endure winter in Berlin this time :D
+</p><p>
+</p><p><img class="alignnone  wp-image-6" src="https://twisselprojects.files.wordpress.com/2015/11/temperature.jpg?w=300" alt="temperature" width="597" height="360" /></p>
+
+                </section>
+            </article>
+
+            
+
+            
+
+            
+
+            <footer id="footer">
+    
+    <p class="small">
+    
+       © Copyright 2017 <i class="fa fa-heart" aria-hidden="true"></i> 
+    
+    </p>
+    <p class="small">
+        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
+    </p>
+</footer>
+
+        </section>
+
+        <script src="http://twissel.narcosoft.com/js/jquery-2.2.4.min.js"></script>
+<script src="http://twissel.narcosoft.com/js/main.js"></script>
+<script src="http://twissel.narcosoft.com/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+
+
+    </body>
+</html>

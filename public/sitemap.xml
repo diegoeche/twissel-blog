@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>http://twissel.narcosoft.com/post/in-love-with-my-first-3d-printer/</loc>
+    <lastmod>2017-08-23T20:21:12+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://twissel.narcosoft.com/post/starting-game-development-in-c/</loc>
+    <lastmod>2017-02-01T01:30:37+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://twissel.narcosoft.com/post/poor-man-s-web-automation-using-chrome-extensions/</loc>
+    <lastmod>2016-01-07T21:24:54+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://twissel.narcosoft.com/post/simple-text-classification-with-python-s-nltk/</loc>
+    <lastmod>2015-12-21T21:51:28+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://twissel.narcosoft.com/post/monitoring-for-drones/</loc>
+    <lastmod>2015-12-01T01:24:41+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://twissel.narcosoft.com/post/my-kingdom-for-a-good-gamedev-stack/</loc>
+    <lastmod>2015-11-20T20:45:48+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://twissel.narcosoft.com/post/first-week-of-arduino-fun/</loc>
+    <lastmod>2015-11-11T15:24:45+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://twissel.narcosoft.com/post/why-starting-a-blog-why-getting-away/</loc>
+    <lastmod>2015-11-11T15:04:50+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://twissel.narcosoft.com/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://twissel.narcosoft.com/post/</loc>
+    <lastmod>2017-08-23T20:21:12+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://twissel.narcosoft.com/tags/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://twissel.narcosoft.com/</loc>
+    <lastmod>2017-08-23T20:21:12+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+</urlset>
