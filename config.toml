@@ -1,6 +1,6 @@
 languageCode = "en-us"
 title = "Twissel Hacking Projects"
-theme = "hugo-theme-cactus-plus"
+theme = "twissel"
 baseURL= "http://twissel.narcosoft.com/"
 pygmentsstyle = "friendly"
 [params]
