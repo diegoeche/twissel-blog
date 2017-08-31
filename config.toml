@@ -1,7 +1,14 @@
 languageCode = "en-us"
 title = "Twissel Hacking Projects"
+
 theme = "twissel"
 baseURL= "http://twissel.narcosoft.com/"
 pygmentsstyle = "friendly"
+
 [params]
-AuthorName = "Diego Echeverri"
+  AuthorName = "Diego Echeverri"
+  name = "Twissel's Projects"
+  description = ""
+  bio = "A Blog about DIY Hacks"
+  twitter = "diegoeche"
+  enableRSS = false
